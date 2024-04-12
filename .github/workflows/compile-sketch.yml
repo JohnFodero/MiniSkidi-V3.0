@@ -16,7 +16,7 @@ jobs:
       # install extra dependencies
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1
-      - run: arduino-cli core install --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+      - run: arduino-cli core install --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json esp32:esp32
         name: Install ESP32 core
       # For more information: https://github.com/arduino/compile-sketches#readme
       - name: Compile sketch
