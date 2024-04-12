@@ -23,7 +23,7 @@ jobs:
             - name: esp32:esp32
               source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
             - name: esp32-bluepad32:esp32
-              source-url: "https://raw.githubusercontent.com/ricardoquesada/esp32-arduino-lib-builder/master/bluepad32_files/package_esp32_bluepad32_index.json"
+              source-url: https://github.com/ricardoquesada/bluepad32/archive/refs/tags/4.0.3.zip
           sketch-paths: |
             - ./MiniSkidi_3.0/MiniSkidi_3.0.ino
           libraries: |
