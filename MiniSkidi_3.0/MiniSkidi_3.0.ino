@@ -10,8 +10,8 @@
 #include <Bluepad32.h>
 
 // defines
-#define bucketServoPin  23
-#define auxServoPin 22
+#define bucketServoPin  22
+#define auxServoPin 23
 #define lightPin1 18
 #define lightPin2 5
 
@@ -23,12 +23,16 @@
 #define MOTOR_PWM_FREQ 5000
 #define MOTOR_PWM_RES 8
 
+#define DEBOUNCE_MILLIS 300
+
 Servo bucketServo; // Grabs PWM Channel 0
 Servo auxServo; // Grabs PWM Channel 1
 
 bool light = false;
 int bucket_pos = 140;
 int claw_pos = 150;
+int light_debounce_ms = millis();
+int now = light_debounce_ms;
 
 struct MOTOR_PINS
 {
@@ -55,18 +59,24 @@ void auxControl(int auxServoValue)
 }
 void lightControl()
 {
-  if (!light)
-  {
-    digitalWrite(lightPin1, HIGH);
-    digitalWrite(lightPin2, LOW);
-    light = true;
+  now = millis();
+  if (now - light_debounce_ms > DEBOUNCE_MILLIS) {
+    light_debounce_ms = now;
+    if (!light)
+    {
+      digitalWrite(lightPin1, HIGH);
+      digitalWrite(lightPin2, LOW);
+      light = true;
+    }
+    else
+    {
+      digitalWrite(lightPin1, LOW);
+      digitalWrite(lightPin2, LOW);
+      light = false;
+    }
+
   }
-  else
-  {
-    digitalWrite(lightPin1, LOW);
-    digitalWrite(lightPin2, LOW);
-    light = false;
-  }
+
 }
 
 void setUpPinModes()
@@ -249,10 +259,20 @@ void processGamepad(ControllerPtr gamepad) {
     }
   } 
   // set claw servo
-
+  int claw_raw = gamepad->throttle() - gamepad->brake();
+  if (abs(claw_raw) > DEAD_ZONE) {
+    int temp_claw_pos = claw_pos - map(claw_raw, -1024, 1024, -3, 3);
+    if (temp_claw_pos > 175 | temp_claw_pos < 25) {
+      gamepad->setRumble(0xc0 /* force */, 0x50 /* duration */);
+    }
+    int new_claw_pos = constrain(temp_claw_pos, 25, 175);
+    if (new_claw_pos != claw_pos) {
+      claw_pos = new_claw_pos;
+      auxControl(claw_pos);
+    }
+  } 
   // Set lights
   if (gamepad->a()) {
-    Serial.println("Toggle lights");
     lightControl();
   }
 
