@@ -9,7 +9,6 @@
 #include <vector>
 #include <Bluepad32.h>
 
-something bad
 // defines
 #define bucketServoPin  22
 #define auxServoPin 23
