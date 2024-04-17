@@ -13,7 +13,6 @@ jobs:
       # This step makes the contents of the repository available to the workflow
       - name: Checkout repository
         uses: actions/checkout@v4
-      # install extra dependencies
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1
       - run: arduino-cli config init
@@ -28,19 +27,5 @@ jobs:
         name: Install ESP32 Bluepad32 core
       - run: arduino-cli lib install ESP32Servo
         name: Install ESP32Servo library
-      - run: arduino-cli compile --fqbn esp32-bluepad32:esp32:esp32 ./MiniSkidi_3.0/MiniSkidi_3.0.ino 
+      - run: arduino-cli compile --fqbn esp32-bluepad32:esp32:esp32 ./MiniSkidi_3.0/MiniSkidi_3.0.ino --output-dir ./MiniSkidi_3.0/build
         name: Compile sketch
-      # For more information: https://github.com/arduino/compile-sketches#readme
-      # - name: Compile sketch
-      #   uses: arduino/compile-sketches@v1
-      #   with:
-      #     fqbn: esp32-bluepad32:esp32:esp32  
-      #     platforms: |
-      #       - name: esp32:esp32
-      #         source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-      #       - name: esp32-bluepad32:esp32
-      #         source-url: https://raw.githubusercontent.com/ricardoquesada/esp32-arduino-lib-builder/master/bluepad32_files/package_esp32_bluepad32_index.json
-      #     sketch-paths: |
-      #       - ./MiniSkidi_3.0/MiniSkidi_3.0.ino
-      #     libraries: |
-      #       - name: ESP32Servo
