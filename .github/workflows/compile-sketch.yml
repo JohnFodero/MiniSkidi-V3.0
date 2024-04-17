@@ -27,3 +27,10 @@ jobs:
         name: Install ESP32Servo library
       - run: arduino-cli compile --fqbn esp32-bluepad32:esp32:esp32 ./MiniSkidi_3.0/MiniSkidi_3.0.ino --output-dir ./MiniSkidi_3.0/build
         name: Compile sketch
+      - name: 'Upload Build Artifacts'
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-artifacts
+          path: ./MiniSkidi_3.0/build
+          retention-days: 5
+    
