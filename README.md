@@ -1,3 +1,5 @@
+[![Compile Sketch](https://github.com/JohnFodero/MiniSkidi-V3.0/actions/workflows/compile-sketch.yml/badge.svg)](https://github.com/JohnFodero/MiniSkidi-V3.0/actions/workflows/compile-sketch.yml)
+
 # Bluepad32 support for MiniSkidi V3.0
 
 This PR combines the two excelent projects:
